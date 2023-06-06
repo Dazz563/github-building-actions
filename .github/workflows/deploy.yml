@@ -62,6 +62,7 @@ jobs:
             - name: Output contents
               run: ls
             - name: Deploy site
+              id: deploy
               uses: ./.github/actions/deploy-s3-javascript
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -69,6 +70,10 @@ jobs:
               with:
                   bucket: gha-custom-action-hosting-course
                   dist-folder: ./dist
+            - name: Output information
+              run: |
+                  echo "Deployed to: ${{ steps.deploy.outputs.website-url }}"
+                  echo "Deployed at: ${{ steps.deploy.outputs.time }}"
     # information:
     #     runs-on: ubuntu-latest
     #     steps:
